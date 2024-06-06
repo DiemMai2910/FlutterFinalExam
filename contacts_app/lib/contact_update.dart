@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 
 class ContactUpdate extends StatefulWidget {
   final String? initialName;
-  final int? initialPhoneNumber;
-  final String? initialImage;
+  final String? initialPhoneNumber;
 
   const ContactUpdate({
     Key? key,
     this.initialName,
     this.initialPhoneNumber,
-    this.initialImage,
   }) : super(key: key);
 
   @override
@@ -17,23 +15,8 @@ class ContactUpdate extends StatefulWidget {
 }
 
 class _ContactUpdateState extends State<ContactUpdate> {
-  late TextEditingController _nameController;
-  late TextEditingController _phoneNumberController;
-
-  @override
-  void initState() {
-    super.initState();
-    _nameController = TextEditingController(text: widget.initialName);
-    _phoneNumberController = TextEditingController(
-        text: widget.initialPhoneNumber?.toString() ?? '');
-  }
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _phoneNumberController.dispose();
-    super.dispose();
-  }
+  final nameController = TextEditingController();
+  final phoneNumberController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -44,28 +27,35 @@ class _ContactUpdateState extends State<ContactUpdate> {
           IconButton(
             onPressed: () {
               Navigator.of(context).pop({
-                'name': _nameController.text,
-                'phoneNumber': int.tryParse(_phoneNumberController.text) ?? 0,
+                'name': nameController.text,
+                'phoneNumber': phoneNumberController.text,
               });
             },
             icon: const Icon(Icons.save),
-          )
+          ),
         ],
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 20),
               TextFormField(
-                controller: _nameController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  label: Text("Tên liên hệ"),
+                ),
+                controller: nameController,
               ),
               const SizedBox(height: 20),
               TextFormField(
-                controller: _phoneNumberController,
-                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  label: Text("Số điện thoại"),
+                ),
+                controller: phoneNumberController,
+                keyboardType: TextInputType.phone,
               ),
             ],
           ),

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "971325451831",
+    "project_id": "fir-first-app-13bbd",
+    "storage_bucket": "fir-first-app-13bbd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:971325451831:android:838b7c9ccce28186c819b2",
+        "android_client_info": {
+          "package_name": "com.example.contacts_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTF-RqCC-yiKv9WaHT3GbdcRYvq5gAguk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:971325451831:android:15c86504049cab20c819b2",
+        "android_client_info": {
+          "package_name": "com.example.fire_base_test"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTF-RqCC-yiKv9WaHT3GbdcRYvq5gAguk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
