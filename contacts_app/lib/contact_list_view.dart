@@ -1,8 +1,6 @@
-import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'contact_details.dart';
 import 'contact_firestore.dart';
 
@@ -47,11 +45,25 @@ class _ContactListViewState extends State<ContactListView> {
                   actions: [
                     IconButton(
                       onPressed: () {
-                        contactFirestore.addContact(
-                            contactNameController.text, phoneNumberController.text);
+                        contactFirestore.addContact(contactNameController.text,
+                            phoneNumberController.text);
                         Navigator.of(context).pop();
                         contactNameController.clear();
                         phoneNumberController.clear();
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text("Thêm liên hệ thành công!"),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text("OK")),
+                                ],
+                              );
+                            });
                       },
                       icon: const Icon(Icons.save),
                     )
@@ -106,6 +118,23 @@ class _ContactListViewState extends State<ContactListView> {
         },
       ),
       appBar: AppBar(
+        leadingWidth: 150,
+        leading: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const SizedBox(
+              width: 5,
+            ),
+            Center(
+                child: Text(
+              currentUser!.email!.split('@')[0],
+              overflow: TextOverflow.ellipsis,
+            )),
+            const SizedBox(
+              width: 5,
+            ),
+          ],
+        ),
         centerTitle: true,
         title: const Text('Danh Bạ'),
         actions: [

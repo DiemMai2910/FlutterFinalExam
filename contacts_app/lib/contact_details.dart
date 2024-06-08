@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'contact_firestore.dart';
 import 'package:hexcolor/hexcolor.dart';
 
@@ -31,11 +30,11 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
   void initState() {
     super.initState();
     contactId = widget.contactId;
-    contactNameControllerUpdate = TextEditingController(text: widget.contactName);
-    phoneNumberControllerUpdate = TextEditingController(text: widget.phoneNumber);
+    contactNameControllerUpdate =
+        TextEditingController(text: widget.contactName);
+    phoneNumberControllerUpdate =
+        TextEditingController(text: widget.phoneNumber);
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -159,7 +158,21 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
               onPressed: () {
                 contactFirestore.deleteContact(contactId);
                 Navigator.of(context).pop(); //Đóng Dialog
-                Navigator.of(context).pop(); //ĐÓng Details view
+                Navigator.of(context).pop(); //Đóng Details view
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text("Xóa liên hệ thành công!"),
+                        actions: [
+                          TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text("OK")),
+                        ],
+                      );
+                    });
               },
               child: const Text("Xóa"),
             ),
@@ -180,10 +193,26 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
             actions: [
               IconButton(
                 onPressed: () {
-                  contactFirestore.updateContact(contactId,
-                      contactNameControllerUpdate.text, phoneNumberControllerUpdate.text);
+                  contactFirestore.updateContact(
+                      contactId,
+                      contactNameControllerUpdate.text,
+                      phoneNumberControllerUpdate.text);
                   Navigator.of(context).pop();
                   setState(() {});
+                  showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text("Cập nhật liên hệ thành công!"),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text("OK")),
+                                ],
+                              );
+                            });
                 },
                 icon: const Icon(Icons.save),
               )
