@@ -163,13 +163,13 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: Text("Xóa liên hệ thành công!"),
+                        title: const Text("Xóa liên hệ thành công!"),
                         actions: [
                           TextButton(
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
-                              child: Text("OK")),
+                              child: const Text("OK")),
                         ],
                       );
                     });
@@ -203,13 +203,13 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                title: Text("Cập nhật liên hệ thành công!"),
+                                title: const Text("Cập nhật liên hệ thành công!"),
                                 actions: [
                                   TextButton(
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                       },
-                                      child: Text("OK")),
+                                      child: const Text("OK")),
                                 ],
                               );
                             });

@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-enum AuthMode { login, register }
+enum AuthMode { login, register }   //Định nghĩa các trạng thái cho AuthMode
 
 class AuthGate extends StatefulWidget {
   const AuthGate({super.key});
@@ -13,17 +13,24 @@ class AuthGate extends StatefulWidget {
 
 class _AuthGateState extends State<AuthGate> {
   var mode = AuthMode.login;
+
+  //Các trường nhập liệu 
   final userController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final confirmPasswordController = TextEditingController();
+  
+  //Khóa quản lý trạng thái biểu mẫu
   final formKey = GlobalKey<FormState>();
+
+  //Quản lý xác thực FirebaseAuth
   final auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: mode == AuthMode.register
+
+      //Giao diện đăng ký
           ? Center(
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
@@ -40,12 +47,13 @@ class _AuthGateState extends State<AuthGate> {
                       "Danh bạ trực tuyến",
                       style: TextStyle(fontSize: 20),
                     ),
+
+                    //Form đăng ký
                     Form(
                       key: formKey,
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             const SizedBox(height: 25),
                             TextFormField(
@@ -61,6 +69,7 @@ class _AuthGateState extends State<AuthGate> {
                                       ? null
                                       : 'Required',
                             ),
+
                             const SizedBox(height: 10),
                             TextFormField(
                               controller: emailController,
@@ -75,6 +84,7 @@ class _AuthGateState extends State<AuthGate> {
                                       ? null
                                       : 'Required',
                             ),
+
                             const SizedBox(height: 10),
                             TextFormField(
                               controller: passwordController,
@@ -84,19 +94,21 @@ class _AuthGateState extends State<AuthGate> {
                                 ),
                                 label: const Text('Mật khẩu'),
                               ),
-                              obscureText: true,
+                              obscureText: true,    //Ẩn ký tự nhập
                               validator: (value) =>
                                   value != null && value.isNotEmpty
                                       ? null
                                       : 'Required',
                             ),
+
                             const SizedBox(height: 20),
                             FilledButton(
                               onPressed: () {
                                 register();
                               },
-                              child: Text("Đăng ký"),
+                              child: const Text("Đăng ký"),
                             ),
+                            
                             const SizedBox(height: 15),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -123,6 +135,8 @@ class _AuthGateState extends State<AuthGate> {
                 ),
               ),
             )
+
+          //Giao diện đăng nhập  
           : Center(
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
@@ -139,16 +153,16 @@ class _AuthGateState extends State<AuthGate> {
                       "Danh bạ trực tuyến",
                       style: TextStyle(fontSize: 20),
                     ),
-                    //form login
+
+                    //Form đăng nhập
                     Form(
                       key: formKey,
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             const SizedBox(height: 25),
-                            //email
+
                             TextFormField(
                               controller: emailController,
                               decoration: const InputDecoration(
@@ -161,7 +175,7 @@ class _AuthGateState extends State<AuthGate> {
                                       : 'Required',
                             ),
                             const SizedBox(height: 10),
-                            //password
+
                             TextFormField(
                               controller: passwordController,
                               decoration: const InputDecoration(
@@ -174,6 +188,7 @@ class _AuthGateState extends State<AuthGate> {
                                       ? null
                                       : 'Required',
                             ),
+
                             const SizedBox(height: 20),
                             FilledButton(
                                 onPressed: login,
@@ -207,6 +222,8 @@ class _AuthGateState extends State<AuthGate> {
     );
   }
 
+
+  //Phương thức đăng nhập
   Future<void> login() async {
     showDialog(
         context: context,
@@ -233,6 +250,8 @@ class _AuthGateState extends State<AuthGate> {
     }
   }
 
+
+  //Phương thức đăng ký
   Future<void> register() async {
     showDialog(
         context: context,
@@ -244,7 +263,7 @@ class _AuthGateState extends State<AuthGate> {
       final password = passwordController.text.trim();
       try {
 
-        if (formKey.currentState!.validate()) {
+        if (formKey.currentState!.validate()) {   //kiểm tra hợp lệ nhập liệu
           UserCredential? userCredential =
               await auth.createUserWithEmailAndPassword(
             email: email,
@@ -263,6 +282,8 @@ class _AuthGateState extends State<AuthGate> {
       }
   }
 
+
+  //Phương thức thêm thông tin tài khoản vào FireStore
   Future<void> addUserFirestore(UserCredential? userCredential) async {
     if (userCredential != null && userCredential.user != null) {
       await FirebaseFirestore.instance

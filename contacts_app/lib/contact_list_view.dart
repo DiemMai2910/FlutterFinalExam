@@ -13,22 +13,12 @@ class ContactListView extends StatefulWidget {
 
 class _ContactListViewState extends State<ContactListView> {
   final ContactFirestore contactFirestore = ContactFirestore();
+
   final User? currentUser = FirebaseAuth.instance.currentUser;
-  late TextEditingController _searchController;
+
+  final _searchController = TextEditingController();
   final contactNameController = TextEditingController();
   final phoneNumberController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    _searchController = TextEditingController();
-  }
-
-  @override
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +44,7 @@ class _ContactListViewState extends State<ContactListView> {
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                title: Text("Thêm liên hệ thành công!"),
+                                title: const Text("Thêm liên hệ thành công!"),
                                 actions: [
                                   TextButton(
                                       onPressed: () {
@@ -75,22 +65,21 @@ class _ContactListViewState extends State<ContactListView> {
                     child: Column(
                       children: [
                         const SizedBox(height: 20),
-                        GestureDetector(
-                          onTap: () {},
-                          child: ClipOval(
-                            child: Container(
-                              width: 150,
-                              height: 150,
-                              color: Colors.grey[200],
-                              child: const Center(
-                                child: Icon(
-                                  Icons.camera_alt,
-                                  size: 50,
-                                ),
-                              ),
+
+                      ClipOval(
+                        child: Container(
+                          width: 150,
+                          height: 150,
+                          color: Colors.grey[200],
+                          child: const Center(
+                            child: Icon(
+                              Icons.camera_alt,
+                              size: 50,
                             ),
                           ),
                         ),
+                      ),
+
                         const SizedBox(height: 20),
                         TextFormField(
                           decoration: const InputDecoration(
@@ -100,6 +89,7 @@ class _ContactListViewState extends State<ContactListView> {
                           controller: contactNameController,
                         ),
                         const SizedBox(height: 20),
+                        
                         TextFormField(
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
@@ -118,21 +108,18 @@ class _ContactListViewState extends State<ContactListView> {
         },
       ),
       appBar: AppBar(
-        leadingWidth: 150,
+        leadingWidth: 100,
         leading: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const SizedBox(
               width: 5,
             ),
-            Center(
-                child: Text(
+
+            Text(
               currentUser!.email!.split('@')[0],
               overflow: TextOverflow.ellipsis,
-            )),
-            const SizedBox(
-              width: 5,
             ),
+
           ],
         ),
         centerTitle: true,
@@ -183,7 +170,7 @@ class _ContactListViewState extends State<ContactListView> {
                   final filteredContacts = contacts.where((contact) {
                     final name =
                         contact['contactName'].toString().toLowerCase();
-                    final phoneNumber = contact['phoneNumber'].toString();
+                    final phoneNumber = contact['phoneNumber'];
                     return name.contains(searchQuery) ||
                         phoneNumber.contains(searchQuery);
                   }).toList();
@@ -223,7 +210,7 @@ class _ContactListViewState extends State<ContactListView> {
                               style:
                                   const TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            subtitle: Text(contact['phoneNumber'].toString()),
+                            subtitle: Text(contact['phoneNumber']),
                             trailing: IconButton(
                               onPressed: () {},
                               icon: const Icon(Icons.phone),

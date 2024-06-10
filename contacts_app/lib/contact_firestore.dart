@@ -12,7 +12,7 @@ class ContactFirestore {
   Future<DocumentReference<Object?>> addContact(
       String contactName, String phoneNumber) async {
     return contacts.add({
-      'userEmail': user!.email,
+      'userEmail': user!.email,  
       'contactName': contactName,
       'phoneNumber': phoneNumber,
     });
